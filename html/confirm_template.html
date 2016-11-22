@@ -1,0 +1,73 @@
+<div class="theme-settings modal paste-to-bin">
+    <div class="modal-header">
+      <h1 class="dialog-title">
+        Customize your paste
+      </h1>
+    </div>
+    <div class="modal-body">
+      <div class="control-group">
+        <div class="field-wrapper">
+          <label class="control-label">Title</label>
+          <div class="controls">
+            <input type="text" id="title" placeholder="Title" value="{{Title}}">
+          </div>
+        </div>  
+        <div class="field-wrapper">
+          <label class="control-label">Formatting</label>
+          <div class="controls">
+              <select id="format" name="cursorStyle">
+                  {{#Formats}}
+                    <option style="text-align:left;" value="{{.}}">
+                      {{.}}
+                    </option>
+                  {{/Formats}}
+              </select>
+          </div>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="field-wrapper">
+          <label class="control-label">Paste expiration</label>
+          <div class="controls">
+              <select id="expiration" name="cursorStyle">
+                  {{#Expiration}}
+                    <option style="text-align:left;" value="{{value}}">
+                    {{display}}
+                    </option>
+                  {{/Expiration}}
+              </select>
+          </div>
+        </div>  
+        <div class="field-wrapper">
+          <label class="control-label">Paste privacy</label>
+          <div class="controls">
+              <select id="privacy" name="cursorStyle">
+                  {{#Expousure}}
+                    <option style="text-align:left;" value="{{value}}">
+                    {{display}}
+                    </option>
+                  {{/Expousure}}
+              </select>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="foo">
+        <div class="control-group">
+          <div class="controls">
+            <p>
+              Your Paste contents
+            </p>
+            <textarea id="paste">
+              {{PasteToBinContent}}
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button class="dialog-button btn" data-button-id="cancel">{{Strings.CANCEL}}</button>
+        <button class="dialog-button btn primary" data-button-id="done">{{Strings.DONE}}</button>
+    </div>
+</div>

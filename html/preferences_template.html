@@ -1,0 +1,37 @@
+<div class="theme-settings modal paste-to-bin">
+    <div class="modal-header">
+      <h1 class="dialog-title">
+        PasteToBin preferences
+      </h1>
+    </div>
+    <div class="modal-body">
+      <div>
+        Those preferences are required if you'd like create private pastes etc
+      </div>
+      <div class="control-group">
+        <div class="field-wrapper">
+          <label class="control-label">Pastebin token</label>
+          <div class="controls">
+            <input type="text" id="token" placeholder="Pastebin token" value="{{Preferences.token}}">
+          </div>
+        </div>  
+      </div>
+      <div class="control-group">
+        <div class="field-wrapper">
+          <label class="control-label">Username</label>
+          <div class="controls">
+            <input type="text" id="username" placeholder="Pastebin username" value="{{Preferences.username}}">
+          </div>
+        </div>  
+        <div class="field-wrapper">
+          <label class="control-label">Password</label>
+          <div class="controls">
+            <input type="password" id="password" placeholder="Pastebin password" value="{{Preferences.password}}">
+          </div>
+        </div>
+      </div>
+    <div class="modal-footer">
+        <button class="dialog-button btn" data-button-id="cancel">{{Strings.CANCEL}}</button>
+        <button class="dialog-button btn primary" data-button-id="done">{{Strings.DONE}}</button>
+    </div>
+</div>

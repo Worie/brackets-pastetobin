@@ -1,0 +1,14 @@
+.paste-to-bin textarea {
+  resize: none;
+  width: 80%;
+  height: 150px;
+  font-size: 15px;
+}
+
+.paste-to-bin .field-wrapper {
+  display: inline-block;
+}
+
+.paste-to-bin .required {
+  color: orange;
+}
