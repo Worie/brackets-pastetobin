@@ -1,0 +1,16 @@
+{
+    "name": "worie.your-extension-id",
+    "title": "PasteToBin",
+    "description": "Quickly upload fragments of your code to Pastebin and get the url directly into your clipboard!",
+    "homepage": "https://github.com/worie/brackets-pastetobin",
+    "version": "1.0.0",
+    "author": "Wojciech Połowniak <wojciech.polowniak@gmail.com>",
+    "license": "MIT",
+    "keywords": [
+      "pastebin",
+      "clipboard",
+      "notify",
+      "quick",
+      "snippet"
+    ]
+}
