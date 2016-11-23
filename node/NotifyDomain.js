@@ -30,42 +30,45 @@ maxerr: 50, node: true */
     
     var notifier = require('node-notifier');
 
-    function notify(title, msg, click) {
+    function notify(title, msg) {
       notifier.notify({
         'title': title,
         'message': msg
       });
-      
-      //if (click) {
-      //  notifier.on('click',click);
-      //}
-      return true;
+      return;
     }
 
     /**
-     * Initializes the test domain with several test commands.
+     * 
      * @param {DomainManager} domainManager The DomainManager for the server
      */
     function init(domainManager) {
-        if (!domainManager.hasDomain("notify")) {
-            domainManager.registerDomain("notify", {major: 0, minor: 1});
-        }
-        domainManager.registerCommand(
-            "notify",       // domain name
-            "notify",    // command name
-            notify,   // command handler function
-            true,
-            "Sends system notification",
-            [{name: "text", // parameters
-                type: "String",
-                description: "Blah blah"}],
-            [{name: "Promise", // return values
-                type: "object",
-                description: "Pastebin obj"}]
-        );
+      if (!domainManager.hasDomain("notify")) {
+        domainManager.registerDomain("notify", {major: 0, minor: 1});
+      }
+        
+      domainManager.registerCommand(
+        "notify",       // domain name
+        "notify",    // command name
+        notify,   // command handler function
+        true,
+        "Sends system notification",
+        [
+          {
+            name: "title",
+            type: "String",
+            description: "The title of notitication"
+          },
+          {
+            name: "message",
+            type: "String",
+            description: "Notification content"
+          }
+        ],
+        []
+      );
     }
     
     exports.init = init;
-    
 }());
 

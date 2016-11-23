@@ -27,12 +27,15 @@ maxerr: 50, node: true */
 
 (function () {
     "use strict";
-    
+  
     var os        = require("os");
     var PastebinAPI = require("pastebin-js");
-    var pastebin;
+    var pastebin = false;
     //function createPasteFromSelection(options,cb) {
     function createPaste(text,title,format,privacy,expiration,cb) {
+      if( pastebin == false) {
+        return false;
+      }
       return pastebin
         //.createPaste(options)
         .createPaste({
@@ -47,6 +50,7 @@ maxerr: 50, node: true */
         })
         .fail(function(err){
           cb(err);
+          console.error(err);
         });
     }
   
@@ -58,39 +62,52 @@ maxerr: 50, node: true */
       });
     }
     /**
-     * Initializes the test domain with several test commands.
+     * 
      * @param {DomainManager} domainManager The DomainManager for the server
      */
     function init(domainManager) {
         if (!domainManager.hasDomain("pastebin")) {
-            domainManager.registerDomain("pastebin", {major: 0, minor: 1});
+          domainManager.registerDomain("pastebin", {major: 0, minor: 1});
         }
-        domainManager.registerCommand(
-            "pastebin",
-            "createPaste",
-            createPaste,
-            true,
-            "Creates a paste",
-            [{name: "total", // TODO
-                type: "object",
-                description: "True to return total memory, false to return free memory"}],
-            [{name: "Promise", // return values
-                type: "object",
-                description: "Pastebin obj"}]
-        );
-        domainManager.registerCommand(
-            "pastebin",
-            "setup",
-            logIn,
-            false,
-            "Setup",
-            [{name: "total", // TODO
-                type: "object",
-                description: "True to return total memory, false to return free memory"}],
-            [{name: "Promise", // return values
-                type: "object",
-                description: "Pastebin obj"}]
-        );
+      domainManager.registerCommand(
+        "pastebin",
+        "createPaste",
+        createPaste,
+        true,
+        "Creates a paste",
+        [{name: "total", // TODO
+            type: "object",
+            description: "True to return total memory, false to return free memory"}],
+        [{name: "Promise", // return values
+            type: "object",
+            description: "Pastebin obj"}]
+      );
+      domainManager.registerCommand(
+        "pastebin",
+        "logIn",
+        logIn,
+        false,
+        "Logs the user in",
+        [
+          {
+            name: "token",
+            type: "String",
+            description: "Pastebin token. Required for extension to actually upload the pastes."
+          },
+          {
+            name: "username",
+            type: "String",
+            description: "Pastebin username. You can provide those if you want to create private pastes."
+          },
+          {
+            name: "total",
+            type: "object",
+            description: "Pastebin password. You can profide those if you want to create private pastes."
+          }
+
+        ],
+        []
+      );
     }
     
     exports.init = init;
