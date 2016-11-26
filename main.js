@@ -54,8 +54,8 @@ define(function (require, exports, module) {
 
     try {
       var successful = document.execCommand('copy');
-      var msg = successful ? 'successful' : 'unsuccessful';
-      return 'Copying text command was ' + msg;
+      var msg = successful ? 'Check your clipboard!' : 'Couldn\'t copy the url to the clipboard';
+      return msg;
 
     } catch (err) {
       return 'Oops, unable to copy';
