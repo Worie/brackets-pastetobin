@@ -121,7 +121,7 @@ define(function (require, exports, module) {
           expiration: dialog.find("#expiration").val()          
         };
         createPaste(options).then(function(url){
-          notify("Paste uploaded!", copyTextToClipboard('http://pastebin.com/'+url)); 
+          notify("Paste uploaded!", copyTextToClipboard(url)); 
         });         
       }
     });
