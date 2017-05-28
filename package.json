@@ -3,7 +3,7 @@
     "title": "PasteToBin",
     "description": "Quickly upload fragments of your code to Pastebin and get the url directly into your clipboard!",
     "homepage": "https://github.com/worie/brackets-pastetobin",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "author": "Wojciech Połowniak <wojciech.polowniak@gmail.com>",
     "license": "MIT",
     "keywords": [

@@ -23,7 +23,7 @@
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4,
 maxerr: 50, browser: true */
-/*global $, define, brackets */
+/*global $, define, brackets, CodeMirror */
 
 
 define(function (require, exports, module) {
@@ -39,13 +39,16 @@ define(function (require, exports, module) {
       Strings        = brackets.getModule("strings"),
       Mustache       = brackets.getModule("thirdparty/mustache/mustache"),
       Preferences    = brackets.getModule("preferences/PreferencesManager");
+  
 
+  var toolbarButton = require('text!html/toolbar_button.html');
+  var $button = $(toolbarButton);
   var $availableFormats;
   var pastebinDomain = new NodeDomain("pastebin", ExtensionUtils.getModulePath(module, "node/PastebinDomain"));
   var notifyDomain = new NodeDomain("notify",
   ExtensionUtils.getModulePath(module, "node/NotifyDomain"));
   var prefs = Preferences.getExtensionPrefs("worie.brackets-pastetobin");
-
+  
   function copyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
     textArea.value = text;
@@ -73,7 +76,11 @@ define(function (require, exports, module) {
 
   function _getSelectedText() {
     // TODO: If no selected, get all content
-    return EditorManager.getActiveEditor().getSelectedText(true);
+    var selectedText = EditorManager.getActiveEditor().getSelectedText(true);
+    if (selectedText == "") {
+      selectedText = EditorManager.getActiveEditor().document.getText();
+    }
+    return selectedText;
   }
 
   function createPaste(options) {
@@ -100,8 +107,8 @@ define(function (require, exports, module) {
     var $template = $(
       Mustache.render(require("text!html/confirm_template.html"),
       {
-        "Strings":Strings, 
-        "PasteToBinContent":_getSelectedText(), 
+        "Strings":Strings,
+        "PasteToBinContent":_getSelectedText(),
         "Formats":$availableFormats.formats,
         "Expousure":$availableFormats.expousure,
         "Expiration":$availableFormats.expiration,
@@ -118,11 +125,11 @@ define(function (require, exports, module) {
           title: dialog.find("#title").val(),
           format: dialog.find("#format").val(),
           privacy: Number(dialog.find("#privacy").val()),
-          expiration: dialog.find("#expiration").val()          
+          expiration: dialog.find("#expiration").val()
         };
         createPaste(options).then(function(url){
           notify("Paste uploaded!", copyTextToClipboard(url)); 
-        });         
+        });
       }
     });
   }
@@ -135,7 +142,7 @@ define(function (require, exports, module) {
 
   // Create a menu item bound to the command
   var fileMenu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
-  fileMenu.addMenuItem(CREATE_PASTE, "Ctrl-Alt-W");
+  fileMenu.addMenuItem(CREATE_PASTE);
   var editMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
   editMenu.addMenuItem(SHOW_PREFERENCES);
 
@@ -183,4 +190,24 @@ define(function (require, exports, module) {
   } else {
     logIn();
   }
-}); 
+  $('#main-toolbar .buttons').append(toolbarButton);
+  $('#paste-to-bin-btn').on('click', onPasteRequest);
+  
+  var onCursorActivity = function (obj) {
+    var $btn = $('#paste-to-bin-btn');
+    var a = EditorManager.getActiveEditor().getSelectedText(true);
+    if (a === "") {
+      $btn.removeClass('active');
+    } else {
+      $btn.addClass('active');
+    }
+  };
+  
+  EditorManager.on('activeEditorChange', function (ev, newEditor, oldEditor) {
+    if (newEditor)
+      newEditor.on('cursorActivity', onCursorActivity);
+    if (oldEditor)
+      oldEditor.off('cursorActivity', onCursorActivity);
+  });
+
+});
